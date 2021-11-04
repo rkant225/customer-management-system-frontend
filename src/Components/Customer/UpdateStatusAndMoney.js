@@ -8,7 +8,7 @@ import Axios from 'axios';
 import {startLoading, stopLoading} from '../../Redux/Actions/loadingActions';
 
 const UpdateStatusAndMoney = (props)=>{
-    const {history, location, match, dispatch} = props;
+    const {history, dispatch, customerId, onClose, recordsLimit, pageIndex, searchBy} = props;
     const {updateStatusAndMoney} = props;
 
     const [status, setStatus] = useState("NOT_STARTED");
@@ -19,7 +19,6 @@ const UpdateStatusAndMoney = (props)=>{
 
     const fetchDetailsOfCurrentUser = async ()=>{
         startLoading(dispatch);
-        const customerId = match.params.customerId;
         const URL = `${process.env.REACT_APP_BASE_API_URL}/api/singleCustomer/${customerId}`;
         const response = await Axios.get(URL);
         const customerData = response.data.customer;
@@ -50,22 +49,21 @@ const UpdateStatusAndMoney = (props)=>{
     }
 
     const handleUpdateStatus=()=>{
-        const customerId = match.params.customerId;
         const callBack = ()=>{
-            history.push(`/customer`);
+            // history.push(`/customer`);
             // window.location.href = `https://api.whatsapp.com/send?phone=91${customer.mobileNo}&text=${getTextMessageBasedOnStatus()}`;
+            onClose();
             window.open(`https://api.whatsapp.com/send?phone=91${customer.mobileNo}&text=${getTextMessageBasedOnStatus()}`);
         }
         const customerUpdatedData = {customerId : customerId, money : amount, status : status};
-        updateStatusAndMoney(customerUpdatedData ,callBack)
+        updateStatusAndMoney(customerUpdatedData, recordsLimit, pageIndex, searchBy, callBack)
     }
 
 
     return(
         <React.Fragment>
             <Grid container>
-                <Grid item md={4}></Grid>
-                <Grid item xs={12} md={4} style={{textAlign : 'center'}}>
+                <Grid item xs={12} style={{textAlign : 'center'}}>
                         <Paper style={{padding : '1rem', marginTop : '1rem', textAlign : "initial"}}>
 
                             <div style={{marginTop : '1rem'}}>
@@ -79,13 +77,13 @@ const UpdateStatusAndMoney = (props)=>{
                                 </FormControl>
                             </div>
 
-                            {status == "COMPLETED" && <TextField name="amount" type="number" fullWidth variant="outlined" label="Amount" value={amount} onChange={(e)=>{setAmount(e.target.value)}} style={{marginTop : '1rem'}}/>}
+                            {status === "COMPLETED" && <TextField name="amount" type="number" fullWidth variant="outlined" label="Amount" value={amount} onChange={(e)=>{setAmount(e.target.value)}} style={{marginTop : '1rem'}}/>}
 
                             
 
                             <div style={{display: 'flex', justifyContent : 'space-between', }}>
                                 <Typography align="left" style={{marginTop : '1rem'}}>
-                                    <Button variant="contained" color="primary" onClick={()=>{history.push('/customer')}}>Back</Button>
+                                    <Button variant="contained" color="primary" onClick={onClose}>Close</Button>
                                 </Typography>
                                 <Typography align="right" style={{marginTop : '1rem'}}>
                                     <Button variant="contained" color="primary" onClick={handleUpdateStatus}>Update and send message</Button>
@@ -94,7 +92,6 @@ const UpdateStatusAndMoney = (props)=>{
                         
                         </Paper>
                 </Grid>
-                <Grid item md={4}></Grid>
             </Grid>
         </React.Fragment>
     );
@@ -110,7 +107,7 @@ const mapStateToProps =(state)=>{
 const mapDispatchToProps = (dispatch)=>{
     return {
         dispatch,
-        updateStatusAndMoney : (customerUpdatedData, callBack)=> dispatch(Actions.updateStatusAndMoney(customerUpdatedData, callBack)),
+        updateStatusAndMoney : (customerUpdatedData, recordsLimit, pageIndex, searchBy, callBack)=> dispatch(Actions.updateStatusAndMoney(customerUpdatedData, recordsLimit, pageIndex, searchBy, callBack)),
     }
 }
 

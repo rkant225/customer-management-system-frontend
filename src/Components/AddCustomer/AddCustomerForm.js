@@ -19,7 +19,7 @@ const renderSelectField = (fieldData) => {
 }
 
 const AddCustomerForm = (props)=>{
-    const {onSubmit, itemsList} = props; // Comming from parent
+    const {onSubmit, itemsList, onClose} = props; // Comming from parent
     const { handleSubmit, pristine, reset, submitting, handleFileChange } = props;
     
     useEffect(()=>{
@@ -48,6 +48,7 @@ const AddCustomerForm = (props)=>{
                     {/* <Field name="date" label="Date" maxLength={250} component={renderTextField} style={{marginTop : '1rem'}}/> */}
 
                     <Typography align="right" style={{marginTop : '1rem'}}>
+                        <Button  variant="contained" color="primary" onClick={onClose} style={{marginRight : '.5rem'}}>Close</Button>
                         <Button  type="submit" variant="contained" color="primary" disabled={pristine || submitting}>Add Customer</Button>
                     </Typography>
                     

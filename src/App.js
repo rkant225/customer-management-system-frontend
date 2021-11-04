@@ -1,3 +1,4 @@
+import './App.css'
 import {connect} from 'react-redux';
 import { Box, CssBaseline } from '@material-ui/core';
 import {BrowserRouter, Redirect, Route, Router, Switch} from 'react-router-dom'
@@ -13,7 +14,6 @@ const Login = React.lazy(()=>import('./Components/login'));
 const LogOut = React.lazy(()=>import('./Components/logOut'));
 const Customer = React.lazy(()=>import('./Components/Customer'));
 const UpdateStatusAndMoney = React.lazy(()=>import('./Components/Customer/UpdateStatusAndMoney'));
-const AddCustomer = React.lazy(()=>import('./Components/AddCustomer'));
 const Loader = React.lazy(()=>import('./Components/SharedComponents/loader'));
 const RenderSuccessMessage = React.lazy(()=>import('./Components/SharedComponents/renderSuccessMessage'));
 const RenderErrorMessage = React.lazy(()=>import('./Components/SharedComponents/renderErrorMessage'));
@@ -27,7 +27,7 @@ function App(props) {
   },[]);
 
   return (
-    <div className="App">
+    <div>
       
         <CssBaseline>
           <Suspense fallback={<FallBackLoader/>}>
@@ -42,7 +42,6 @@ function App(props) {
                         <Route path="/login" component={(props)=><Login {...props}/>}/>
                         <Route path="/logout" component={(props)=><LogOut {...props}/>}/>
                         <ProtectedRoute path="/customer" component={(props)=><Customer {...props}/>}/>
-                        <ProtectedRoute path="/add-customer" component={(props)=><AddCustomer {...props}/>}/>
                         <ProtectedRoute path="/update-status/:customerId" component={(props)=><UpdateStatusAndMoney {...props}/>}/>
                         {/* <Redirect to="/"/> */}
                       </Switch>

@@ -1,61 +1,82 @@
-import { Grid, Paper, Typography, Button } from '@material-ui/core';
+import { Grid, Paper, Typography, Button, IconButton } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import DeleteForeverIcon  from '@mui/icons-material/DeleteForever';
 
 const CustomerCard = (props)=>{
-    const {history, customer} = props;
+    const {history, customer, deleteCustomer, openStatusUpdateModal} = props;
     const {id, name, address, mobileNo, item, status, money, description, date} = customer;
 
     const [backGroundColor, setBackGroungColor] = useState('white');
 
     useEffect(()=>{
-        if(status == "NOT_STARTED"){
+        if(status === "NOT_STARTED"){
             setBackGroungColor('red')
         }
-        if(status == "STARTED"){
+        if(status === "STARTED"){
             setBackGroungColor('yellow')
         }
-        if(status == "COMPLETED"){
+        if(status === "COMPLETED"){
             setBackGroungColor('green')
         }
     }, [status]);
 
-    const handleStatusUpdate = () =>{
-        history.push(`/update-status/${id}`);
-    }
 
     return(
         <React.Fragment>
-            <Paper style={{marginTop : '1rem', textAlign : 'initial', padding : '.5rem', border : '2px solid blue'}}>
+            <Paper className="customer-card-container">
                 <div>
                     <p style={{textAlign : 'center', fontSize : '1.8rem', backgroundColor : '#444444', color : 'white'}}>{name}</p>
                     <hr/>
-                    <br/>
-                        <b>Date : </b> {new Date(date).toDateString()}
-                        <br/>
-                        <b>Mobile : </b> {mobileNo}
-                        <br/>
-                        <b>Address : </b> {address}
-                        <br/>
-                        <b>Item : </b> {item.replace(/_/g, ' ')}
-                        <br/>
-                        <b>Description : </b> {description}
-                        <br/>
-                        <b>Status : </b> {status.replace(/_/g, ' ')}
-                        <br/>
-                        <b>Money : </b> {money}
-                        <br/>
+                    <table style={{width : '100%'}}>
+                        <tbody>
+                            <tr>
+                                <td style={{width : '30%', fontWeight : '600'}}>Date</td>
+                                <td style={{textAlign : 'right'}}>{new Date(date).toDateString()}</td>
+                            </tr>
+                            <tr>
+                                <td style={{width : '30%', fontWeight : '600'}}>Mobile</td>
+                                <td style={{textAlign : 'right'}}>{mobileNo}</td>
+                            </tr>
+                            <tr>
+                                <td style={{width : '30%', fontWeight : '600'}}>Address</td>
+                                <td style={{textAlign : 'right'}}>{address}</td>
+                            </tr>
+                            <tr>
+                                <td style={{width : '30%', fontWeight : '600'}}>Item</td>
+                                <td style={{textAlign : 'right'}}>{item.replace(/_/g, ' ')}</td>
+                            </tr>
+                            <tr>
+                                <td style={{width : '30%', fontWeight : '600'}}>Description</td>
+                                <td style={{textAlign : 'right'}}>{description}</td>
+                            </tr>
+                            <tr>
+                                <td style={{width : '30%', fontWeight : '600'}}>Status</td>
+                                <td style={{textAlign : 'right'}}>{status.replace(/_/g, ' ')}</td>
+                            </tr>
+                            <tr>
+                                <td style={{width : '30%', fontWeight : '600'}}>Money</td>
+                                <td style={{textAlign : 'right'}}>{money}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
 
-                <div style={{display : 'flex', justifyContent : 'space-between'}}>
+                <hr/>
+
+                <div style={{display : 'flex', justifyContent : 'space-between', textAlign : 'center'}}>
 
                     <div>
-                        <p style={{backgroundColor : backGroundColor, borderRadius : '5rem', height : '30px', width : '30px', marginTop : '16px'}}></p>
+                        <p style={{backgroundColor : backGroundColor, borderRadius : '5rem', height : '30px', width : '30px'}}></p>
                     </div>
 
-                    <Typography align="right" style={{marginTop : '1rem'}}>
-                        <Button variant="contained" color="primary" onClick={handleStatusUpdate}>Update Status</Button>
+                    <Typography align="right">
+                        <IconButton aria-label="delete" size="medium" onClick={()=>{deleteCustomer(id)}}>
+                            <DeleteForeverIcon fontSize="inherit" />
+                        </IconButton>
+
+                        <Button variant="contained" color="primary" onClick={()=>{openStatusUpdateModal(id)}}>Update Status</Button>
                     </Typography>
 
                 </div>
@@ -69,13 +90,13 @@ const CustomerCard = (props)=>{
 
 const mapStateToProps =(state)=>{
     return{
-        
+
     }
 }
 
 const mapDispatchToProps = (dispatch)=>{
     return {
-        dispatch,        
+        dispatch,         
     }
 }
 

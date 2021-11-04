@@ -1,6 +1,6 @@
 const initialState = {
     itemsList : [],
-    customersList : [],
+    customersData : {},
     allPlaces : [],
     placesOfSelectedUser : [],
     currentlySelectedPlace : {}
@@ -16,7 +16,7 @@ const customerReducer = (state = initialState, action)=>{
         case 'GET_CUSTOMERS_LIST' :
             return {
                 ...state,
-                customersList : action.payload
+                customersData : action.payload
             }
         default :
             return {
