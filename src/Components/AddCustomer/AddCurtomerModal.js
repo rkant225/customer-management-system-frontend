@@ -6,7 +6,7 @@ import * as Actions from '../../Redux/Actions/customerActions';
 import { connect } from 'react-redux';
 
 const AddCurtomerModal=(props)=> {
-    const {onClose, getItemsList, addCustomer, itemsList} = props;
+    const {onClose, getItemsList, addCustomer, itemsList, recordsLimit, pageIndex, searchBy} = props;
 
     useEffect(()=>{
         getItemsList();
@@ -18,7 +18,7 @@ const AddCurtomerModal=(props)=> {
 
         const customerData =  {name, mobileNo, address, item, description, date : new Date()};
 
-        addCustomer(customerData, ()=>{});
+        addCustomer(customerData, recordsLimit, pageIndex, searchBy, onClose);
 
     }
 
@@ -55,7 +55,7 @@ const mapDispatchToProps = (dispatch)=>{
         dispatch,
         getItemsList : ()=> dispatch(Actions.getItemsList()),
         getCustomersList : ()=> dispatch(Actions.getCustomersList()),
-        addCustomer : (customerData, callBack)=> dispatch(Actions.addCustomer(customerData, callBack))
+        addCustomer : (customerData, recordsLimit, pageIndex, searchBy, callBack)=> dispatch(Actions.addCustomer(customerData, recordsLimit, pageIndex, searchBy, callBack))
     }
 }
 

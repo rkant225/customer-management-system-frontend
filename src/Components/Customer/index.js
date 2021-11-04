@@ -120,6 +120,9 @@ const CurtomerHomePage = (props)=>{
                     {openAddCustomerModal && 
                             <AddCurtomerModal
                                 onClose={()=>{setOpenAddCustomerModal(false)}}
+                                recordsLimit={recordsLimit}
+                                pageIndex={pageIndex}
+                                searchBy={searchBy}
                             />
                         }
                     </div>

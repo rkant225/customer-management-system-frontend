@@ -35,7 +35,7 @@ export const getCustomersList =(limit, page, searchBy)=>{
     }          
 }
 
-export const addCustomer =(customerData, callBack)=>{
+export const addCustomer =(customerData, recordsLimit, pageIndex, searchBy, callBack)=>{
     return async (dispatch)=>{
         startLoading(dispatch);
         const path = `/api/customer/add`;
@@ -43,6 +43,7 @@ export const addCustomer =(customerData, callBack)=>{
 
         if(response.isSuccessfull){
             dispatch({type : 'DISPALY_SUCCESS_MESSAGE', payload : 'Customer Added successfully.'});            
+            dispatch(getCustomersList(recordsLimit, pageIndex, searchBy));
             stopLoading(dispatch);
             callBack();
         } else {
