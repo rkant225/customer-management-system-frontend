@@ -2,7 +2,7 @@ import { Grid, Paper, Typography, Button, IconButton } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import DeleteForeverIcon  from '@mui/icons-material/DeleteForever';
+import DeleteForeverIcon  from '@material-ui/icons/DeleteForever';
 
 const CustomerCard = (props)=>{
     const {history, customer, deleteCustomer, openStatusUpdateModal} = props;

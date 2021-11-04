@@ -1,9 +1,5 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
-import { Paper } from '@material-ui/core';
+import { Paper, Modal, Typography, Button, Box } from '@material-ui/core';
 import { useEffect } from 'react';
 import * as Actions from '../../Redux/Actions/customerActions';
 import { connect } from 'react-redux';

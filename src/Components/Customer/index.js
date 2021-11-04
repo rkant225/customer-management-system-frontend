@@ -1,13 +1,14 @@
 import { Grid, Paper, Typography, Button, TablePagination, TextField, OutlinedInput, InputBase } from '@material-ui/core';
-import { Fab, IconButton } from '@mui/material';
+// import { Fab, IconButton } from '@mui/material';
+import { IconButton, Fab } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import * as Actions from '../../Redux/Actions/customerActions';
 import AddCurtomerModal from '../AddCustomer/AddCurtomerModal';
 import CustomerCard from './CustomerCard';
-import SearchIcon from '@mui/icons-material/Search';
-import AddIcon from '@mui/icons-material/Add';
+import SearchIcon from '@material-ui/icons/Search';
+import AddIcon from '@material-ui/icons/Add';
 import UpdateStatusAndMoneyModal from './UpdateStatusAndMoneyModal';
 
 
