@@ -3,7 +3,7 @@
     padding: .3rem;
     padding-bottom: 0;
     border: 2px solid blue;
-    width: 24%;
+    width: 23%;
 }
 
 .add-customer-modal{
@@ -17,13 +17,38 @@
     padding: .5rem;
 }
 
+.detete-confirmation-modal{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20%;
+    min-height: 50px;
+    background-color: white;
+    padding: .5rem;
+}
 
-@media (max-width: 800px) {
+@media (max-width: 1350px) {
+    .customer-card-container{
+        width: 31%;
+    }
+}
+
+@media (max-width: 1000px) {
+    .customer-card-container{
+        width: 48%;
+    }
+}
+@media (max-width: 850px) {
     .customer-card-container{
         width: 98%;
     }
 
     .add-customer-modal{
+        width: 90%;
+    }
+
+    .detete-confirmation-modal{
         width: 90%;
     }
 }

@@ -19,10 +19,10 @@ export const getItemsList =()=>{
     }          
 }
 
-export const getCustomersList =(limit, page, searchBy)=>{
+export const getCustomersList =(limit, page, searchBy, itemStatus)=>{
     return async (dispatch)=>{
         startLoading(dispatch);
-        const path = `/api/customer?limit=${limit}&page=${page}&searchBy=${searchBy}`;
+        const path = `/api/customer?limit=${limit}&page=${page}&searchBy=${searchBy}&itemStatus=${itemStatus}`;
         const response = await API.request(path, 'Get');
 
         if(response.isSuccessfull){
@@ -35,7 +35,7 @@ export const getCustomersList =(limit, page, searchBy)=>{
     }          
 }
 
-export const addCustomer =(customerData, recordsLimit, pageIndex, searchBy, callBack)=>{
+export const addCustomer =(customerData, recordsLimit, pageIndex, searchBy, itemStatus, callBack)=>{
     return async (dispatch)=>{
         startLoading(dispatch);
         const path = `/api/customer/add`;
@@ -43,7 +43,7 @@ export const addCustomer =(customerData, recordsLimit, pageIndex, searchBy, call
 
         if(response.isSuccessfull){
             dispatch({type : 'DISPALY_SUCCESS_MESSAGE', payload : 'Customer Added successfully.'});            
-            dispatch(getCustomersList(recordsLimit, pageIndex, searchBy));
+            dispatch(getCustomersList(recordsLimit, pageIndex, searchBy, itemStatus));
             stopLoading(dispatch);
             callBack();
         } else {
@@ -53,7 +53,7 @@ export const addCustomer =(customerData, recordsLimit, pageIndex, searchBy, call
     }          
 }
 
-export const deleteCustomer =(customerId, recordsLimit, pageIndex, searchBy)=>{
+export const deleteCustomer =(customerId, recordsLimit, pageIndex, searchBy, itemStatus)=>{
     return async (dispatch)=>{
         startLoading(dispatch);
         const path = `/api/customer`;
@@ -61,7 +61,7 @@ export const deleteCustomer =(customerId, recordsLimit, pageIndex, searchBy)=>{
 
         if(response.isSuccessfull){
             dispatch({type : 'DISPALY_SUCCESS_MESSAGE', payload : 'Customer Deleted successfully.'});
-            dispatch(getCustomersList(recordsLimit, pageIndex, searchBy));
+            dispatch(getCustomersList(recordsLimit, pageIndex, searchBy, itemStatus));
             stopLoading(dispatch);
         } else {
             dispatch({type : 'DISPALY_SERVER_ERROR', payload : response.errorMessage || 'Unable to delete customer.'});
@@ -70,7 +70,7 @@ export const deleteCustomer =(customerId, recordsLimit, pageIndex, searchBy)=>{
     }          
 }
 
-export const updateStatusAndMoney =(customerUpdatedData, recordsLimit, pageIndex, searchBy, callBack)=>{
+export const updateStatusAndMoney =(customerUpdatedData, recordsLimit, pageIndex, searchBy, itemStatus, callBack)=>{
     return async (dispatch)=>{
         startLoading(dispatch);
         const path = `/api/customer/updateStatus`;
@@ -78,7 +78,7 @@ export const updateStatusAndMoney =(customerUpdatedData, recordsLimit, pageIndex
 
         if(response.isSuccessfull){
             dispatch({type : 'DISPALY_SUCCESS_MESSAGE', payload : 'Customer Updated successfully.'});
-            dispatch(getCustomersList(recordsLimit, pageIndex, searchBy));
+            dispatch(getCustomersList(recordsLimit, pageIndex, searchBy, itemStatus));
             stopLoading(dispatch);
             callBack();
         } else {

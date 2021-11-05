@@ -10,6 +10,7 @@ import CustomerCard from './CustomerCard';
 import SearchIcon from '@material-ui/icons/Search';
 import AddIcon from '@material-ui/icons/Add';
 import UpdateStatusAndMoneyModal from './UpdateStatusAndMoneyModal';
+import DeleteConfirmationModal from './DeleteConfirmationModal';
 
 
 
@@ -31,9 +32,11 @@ const CurtomerHomePage = (props)=>{
     const [pageIndex, setPageIndex] = useState(0);
     const [searchBy, setSearchBy] = useState("");
     const [customerId, setCustomerId] = useState(0);
+    const [itemStatus, setItemStatus] = useState("");
 
     const [openAddCustomerModal, setOpenAddCustomerModal] = useState(false);
     const [openUpdateStatusModal, setOpenUpdateStatusModal] = useState(false);
+    const [openDeleteCOnfirmationModal, setOpenDeleteCOnfirmationModal] = useState(false);
 
     const handleChangePage = (event, newPage) => {
         console.log(event, newPage)
@@ -45,19 +48,25 @@ const CurtomerHomePage = (props)=>{
         setPageIndex(0);
       };
 
+    
     useEffect(()=>{
-        getCustomersList(recordsLimit, pageIndex, searchBy);
-    }, [recordsLimit, pageIndex]);
+        getCustomersList(recordsLimit, pageIndex, searchBy, itemStatus);
+    }, [recordsLimit, pageIndex, itemStatus]);
 
+    const handleStatusChange =(e)=>{
+        setPageIndex(0);
+        setItemStatus(e.target.value);
+    }
 
-    const handleCustomerDelete = (customerId)=>{
-        deleteCustomer(customerId, recordsLimit, pageIndex, searchBy)
+    const handleCustomerDelete = ()=>{
+        deleteCustomer(customerId, recordsLimit, pageIndex, searchBy, itemStatus)
+        setOpenDeleteCOnfirmationModal(false);
     }
 
     const handleCustomerSearch=(e)=>{
         e.preventDefault();
         // searchBy
-        getCustomersList(recordsLimit, pageIndex, searchBy);
+        getCustomersList(recordsLimit, pageIndex, searchBy, itemStatus);
     }
 
     const handleUpdateStatusModalOpen = (customerId)=>{
@@ -73,26 +82,63 @@ const CurtomerHomePage = (props)=>{
 
                     {/* Header */}
                     <div style={{marginTop : '1rem', margin : 'auto', position : 'fixed', top : 0, backgroundColor : 'greenyellow', padding : '.4rem', zIndex : '100', right : '0', left : '0', textAlign : '-webkit-center'}}>
-                        <div style={{display : 'flex', justifyContent : 'center', alignItems : 'center', backgroundColor : 'white', width : 'max-content', padding : '.4rem 1.5rem', borderRadius : '2rem'}}>
+                        <div style={{display : 'flex', justifyContent : 'center', alignItems : 'center', backgroundColor : 'white', width : 'max-content', padding : '0rem 0rem 0rem .5rem', borderRadius : '2rem'}}>
                             <form onSubmit={handleCustomerSearch}>
-                                <TextField variant="standard" label="Search" size="small" value={searchBy} onChange={(e)=>{setSearchBy(e.target.value)}}/>
+                                {/* <TextField variant="standard" label="Search" size="small" value={searchBy} onChange={(e)=>{setSearchBy(e.target.value)}}/> */}
+                                <InputBase placeholder="Search" variant="standard" label="Search" size="small" value={searchBy} onChange={(e)=>{setSearchBy(e.target.value)}}/>
                                 <IconButton type="submit" sx={{ p: '10px' }}>
                                     <SearchIcon />
                                 </IconButton>
                             </form>
                         </div>
+                        
+                        <div>
+
+                            <div style={{display : 'flex', width : 'max-content'}}>
+                                <div>
+                                    <label>
+                                        <input value="" type="radio" checked={itemStatus === ''} onChange={handleStatusChange}/>
+                                        All
+                                    </label>
+                                </div>
+                                <div>
+                                    <label>
+                                        <input value="NOT_STARTED" type="radio" checked={itemStatus === 'NOT_STARTED'} onChange={handleStatusChange}/>
+                                        Not Started
+                                    </label>
+                                </div>
+                                <div>
+                                    <label>
+                                        <input value="STARTED" type="radio" checked={itemStatus === 'STARTED'} onChange={handleStatusChange}/>
+                                        Started
+                                    </label>
+                                </div>
+                                
+                                <div>
+                                    <label>
+                                        <input value="COMPLETED" type="radio" checked={itemStatus === 'COMPLETED'} onChange={handleStatusChange}/>
+                                        Completed
+                                    </label>
+                                </div>
+
+                            </div>
+
+                            <div>
+                                <b>Total Customers : {totalRecords}</b>
+                            </div>
+                        </div>
                     </div>
                     
                                 
                     {/* Cards */}
-                    <div style={{display : 'flex', flexWrap : 'wrap', marginTop : '4rem'}}>
+                    <div style={{display : 'flex', flexWrap : 'wrap', justifyContent : 'space-evenly', marginTop : '5.5rem'}}>
                         {customers?.map((customer, index)=>{
                             return(
                             <CustomerCard 
                                 key={index} 
                                 history={history} 
                                 customer={customer} 
-                                deleteCustomer={handleCustomerDelete}
+                                deleteCustomer={()=>{setCustomerId(customer.id); setOpenDeleteCOnfirmationModal(true)}}
                                 openStatusUpdateModal={handleUpdateStatusModalOpen}
                             />)
                         })}
@@ -106,7 +152,7 @@ const CurtomerHomePage = (props)=>{
                             page={pageIndex}
                             onChangePage={handleChangePage}
                             rowsPerPage={recordsLimit}
-                            rowsPerPageOptions={[5,10,15,20,25,50]}
+                            rowsPerPageOptions={[5,15,20,25,50,100]}
                             // onRowsPerPageChange={handleChangeRowsPerPage}
                             onChangeRowsPerPage={handleChangeRowsPerPage}
                             labelRowsPerPage="Per Page"
@@ -123,6 +169,7 @@ const CurtomerHomePage = (props)=>{
                                 recordsLimit={recordsLimit}
                                 pageIndex={pageIndex}
                                 searchBy={searchBy}
+                                itemStatus={itemStatus}
                             />
                         }
                     </div>
@@ -136,6 +183,17 @@ const CurtomerHomePage = (props)=>{
                                 recordsLimit={recordsLimit}
                                 pageIndex={pageIndex}
                                 searchBy={searchBy}
+                                itemStatus={itemStatus}
+                            />
+                        }
+                    </div>
+
+                    {/* Delete confirmation Modal */}
+                    <div>
+                    {openDeleteCOnfirmationModal && 
+                            <DeleteConfirmationModal
+                                onClose={()=>{setOpenDeleteCOnfirmationModal(false)}}
+                                onDelete={()=>{handleCustomerDelete()}}
                             />
                         }
                     </div>
@@ -166,8 +224,8 @@ const mapStateToProps =(state)=>{
 const mapDispatchToProps = (dispatch)=>{
     return {
         dispatch,
-        getCustomersList : (limit, page, searchBy)=> dispatch(Actions.getCustomersList(limit, page, searchBy)),
-        deleteCustomer : (customerId, recordsLimit, pageIndex, searchBy)=>{dispatch(Actions.deleteCustomer(customerId, recordsLimit, pageIndex, searchBy))}
+        getCustomersList : (limit, page, searchBy, itemStatus)=> dispatch(Actions.getCustomersList(limit, page, searchBy, itemStatus)),
+        deleteCustomer : (customerId, recordsLimit, pageIndex, searchBy, itemStatus)=>{dispatch(Actions.deleteCustomer(customerId, recordsLimit, pageIndex, searchBy, itemStatus))}
     }
 }
 

@@ -45,7 +45,7 @@ const CustomerCard = (props)=>{
                             </tr>
                             <tr>
                                 <td style={{width : '30%', fontWeight : '600'}}>Item</td>
-                                <td style={{textAlign : 'right'}}>{item.replace(/_/g, ' ')}</td>
+                                <td style={{textAlign : 'right'}}><b>{item.replace(/_/g, ' ')}</b></td>
                             </tr>
                             <tr>
                                 <td style={{width : '30%', fontWeight : '600'}}>Description</td>

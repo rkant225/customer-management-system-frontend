@@ -6,21 +6,13 @@ import { connect } from 'react-redux';
 import UpdateStatusAndMoney from './UpdateStatusAndMoney';
 
 const UpdateStatusAndMoneyModal=(props)=> {
-    const {onClose, getItemsList, addCustomer, itemsList, customerId, recordsLimit, pageIndex, searchBy} = props;
+    const {onClose, getItemsList, addCustomer, itemsList, customerId, recordsLimit, pageIndex, searchBy, itemStatus} = props;
 
     useEffect(()=>{
         getItemsList();
     }, []);
 
-    const onCustomerAdd = (formData)=>{
-        const {name, mobileNo, address, item, description, date} = formData;
-        console.log('formData', formData);
 
-        const customerData =  {name, mobileNo, address, item, description, date : new Date()};
-
-        addCustomer(customerData, ()=>{});
-
-    }
 
   return (
     <div>
@@ -32,6 +24,7 @@ const UpdateStatusAndMoneyModal=(props)=> {
                 recordsLimit={recordsLimit}
                 pageIndex={pageIndex}
                 searchBy={searchBy}
+                itemStatus={itemStatus}
             />
         </Box>
       </Modal>
@@ -52,8 +45,7 @@ const mapDispatchToProps = (dispatch)=>{
     return {
         dispatch,
         getItemsList : ()=> dispatch(Actions.getItemsList()),
-        getCustomersList : ()=> dispatch(Actions.getCustomersList()),
-        addCustomer : (customerData, callBack)=> dispatch(Actions.addCustomer(customerData, callBack))
+        getCustomersList : ()=> dispatch(Actions.getCustomersList())
     }
 }
 

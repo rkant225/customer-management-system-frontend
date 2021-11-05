@@ -8,7 +8,7 @@ import Axios from 'axios';
 import {startLoading, stopLoading} from '../../Redux/Actions/loadingActions';
 
 const UpdateStatusAndMoney = (props)=>{
-    const {history, dispatch, customerId, onClose, recordsLimit, pageIndex, searchBy} = props;
+    const {history, dispatch, customerId, onClose, recordsLimit, pageIndex, searchBy, itemStatus} = props;
     const {updateStatusAndMoney} = props;
 
     const [status, setStatus] = useState("NOT_STARTED");
@@ -56,7 +56,7 @@ const UpdateStatusAndMoney = (props)=>{
             window.open(`https://api.whatsapp.com/send?phone=91${customer.mobileNo}&text=${getTextMessageBasedOnStatus()}`);
         }
         const customerUpdatedData = {customerId : customerId, money : amount, status : status};
-        updateStatusAndMoney(customerUpdatedData, recordsLimit, pageIndex, searchBy, callBack)
+        updateStatusAndMoney(customerUpdatedData, recordsLimit, pageIndex, searchBy, itemStatus, callBack)
     }
 
 
@@ -107,7 +107,7 @@ const mapStateToProps =(state)=>{
 const mapDispatchToProps = (dispatch)=>{
     return {
         dispatch,
-        updateStatusAndMoney : (customerUpdatedData, recordsLimit, pageIndex, searchBy, callBack)=> dispatch(Actions.updateStatusAndMoney(customerUpdatedData, recordsLimit, pageIndex, searchBy, callBack)),
+        updateStatusAndMoney : (customerUpdatedData, recordsLimit, pageIndex, searchBy, itemStatus, callBack)=> dispatch(Actions.updateStatusAndMoney(customerUpdatedData, recordsLimit, pageIndex, searchBy, itemStatus, callBack)),
     }
 }
 
